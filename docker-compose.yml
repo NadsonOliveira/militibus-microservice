@@ -1,0 +1,36 @@
+version: "3"
+
+services:
+ database:
+      image: postgres
+      container_name: database_militibus
+      restart: always
+      ports:
+      - "3366:3366"
+      environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: user
+      POSTGRES_DB: militibus
+      volumes:
+      - ./database:/var/lib/postgresql/data
+
+
+
+
+
+  app:
+    build: .
+    container_name: militibus
+    restart: always
+    ports: 
+      - 3000:3000
+    volumes: 
+      - .:/usr/app
+    links:
+      - database
+    depends_on:
+      - database
+
+volumes:
+  pgdata:
+    driver: local
